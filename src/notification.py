@@ -2137,7 +2137,8 @@ class NotificationService(
         mapping = self._SOURCE_DISPLAY_NAMES.get(raw_source)
         if not mapping:
             return raw_source
-        return mapping[normalize_report_language(language)]
+        # ko 등 별도 표기가 없는 언어는 영어 표기를 쓴다 (ko 는 영어 골격을 재사용)
+        return mapping.get(normalize_report_language(language)) or mapping["en"]
 
     def _append_market_snapshot(self, lines: List[str], result: AnalysisResult) -> None:
         snapshot = getattr(result, 'market_snapshot', None)
